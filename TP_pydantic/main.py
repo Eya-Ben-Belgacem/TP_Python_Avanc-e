@@ -29,3 +29,13 @@ try:
     u = User(name='Ali', email='ali@gmail.com', account_id=-12)
 except Exception as e:
     print("❌ Erreur account_id négatif :", e)
+# ── PARTIE 4 : JSON Serialization ───────────────────────────
+user_valid = User(name="Ali", email="ali@gmail.com", account_id=1234)
+
+# Convertir en JSON string
+user_json_str = user_valid.model_dump_json()
+print("📄 JSON string :", user_json_str)
+
+# Convertir en dictionnaire Python
+user_dict = user_valid.model_dump()
+print("📦 Dictionnaire :", user_dict)
