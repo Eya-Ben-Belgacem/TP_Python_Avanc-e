@@ -1,39 +1,31 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, EmailStr, field_validator
+from dataclasses import dataclass
 
-# On définit un modèle "User" avec 3 champs typés
+# ── PARTIE 1 & 3 : Modèle avec validation custom ────────────
 class User(BaseModel):
-    name: str          # doit être du texte
-    email: str         # doit être du texte
-    account_id: int    # doit être un nombre entier
+    name: str
+    email: EmailStr
+    account_id: int
 
-# On crée un utilisateur valide
-user = User(
-    name="Salah",
-    email="salah@gmail.com",
-    account_id=12345
-)
+    @field_validator("account_id")
+    def validate_account_id(cls, value):
+        if value <= 0:
+            raise ValueError(f"account_id must be positive: {value}")
+        return value
 
-print(user.name)        # Salah
-print(user.email)       # salah@gmail.com
-print(user.account_id)  # 12345
-# Créer un utilisateur depuis un dictionnaire
-user_data = {
-    'name': 'Salah',
-    'email': 'salah@gmail.com',
-    'account_id': 12345
-}
-user2 = User(**user_data)
-print(user2)
-# ── PARTIE 2 : Validation ───────────────────────────────────
-
-# Test 1 : account_id n'est pas un int → erreur
+# ── PARTIE 2 : Tests de validation ──────────────────────────
 try:
     u = User(name='Ali', email='ali@gmail.com', account_id='hello')
 except Exception as e:
     print("❌ Erreur type account_id :", e)
 
-# Test 2 : email invalide → erreur
 try:
     u = User(name='Ali', email='ali', account_id=1234)
 except Exception as e:
     print("❌ Erreur email invalide :", e)
+
+# Test account_id négatif
+try:
+    u = User(name='Ali', email='ali@gmail.com', account_id=-12)
+except Exception as e:
+    print("❌ Erreur account_id négatif :", e)
