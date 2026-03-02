@@ -16,3 +16,11 @@ user = User(
 print(user.name)        # Salah
 print(user.email)       # salah@gmail.com
 print(user.account_id)  # 12345
+# Créer un utilisateur depuis un dictionnaire
+user_data = {
+    'name': 'Salah',
+    'email': 'salah@gmail.com',
+    'account_id': 12345
+}
+user2 = User(**user_data)
+print(user2)
