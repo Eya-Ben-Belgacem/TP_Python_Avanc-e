@@ -24,3 +24,16 @@ user_data = {
 }
 user2 = User(**user_data)
 print(user2)
+# ── PARTIE 2 : Validation ───────────────────────────────────
+
+# Test 1 : account_id n'est pas un int → erreur
+try:
+    u = User(name='Ali', email='ali@gmail.com', account_id='hello')
+except Exception as e:
+    print("❌ Erreur type account_id :", e)
+
+# Test 2 : email invalide → erreur
+try:
+    u = User(name='Ali', email='ali', account_id=1234)
+except Exception as e:
+    print("❌ Erreur email invalide :", e)
